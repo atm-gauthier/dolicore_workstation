@@ -1,0 +1,56 @@
+# Copyright (C) 2020 SuperAdmin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#
+# Generic
+#
+
+# Module label 'ModuleWorkstationName'
+ModuleWorkstationName = Workstation
+# Module description 'ModuleWorkstationDesc'
+ModuleWorkstationDesc = Workstation description
+
+#
+# Admin page
+#
+WorkstationSetup = Workstation setup
+Settings = Settings
+WorkstationSetupPage = Workstation setup page
+WORKSTATION_MYPARAM1 = My param 1
+WORKSTATION_MYPARAM1Tooltip = My param 1 tooltip
+WORKSTATION_MYPARAM2=My param 2
+WORKSTATION_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+WorkstationAbout = About Workstation
+WorkstationAboutPage = Workstation about page
+
+#
+# Sample page
+#
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description
+
+WorkstationList=Workstation list
+WorkstationCreate=Add new workstation
