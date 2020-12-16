@@ -59,3 +59,6 @@ EnableAWorkstation=Enable a workstation
 ConfirmDisableWorkstation=Are you sure you want to disable workstation <b>%s</b> ?
 DisableAWorkstation=Disable a workstation
 DeleteWorkstation=Supprimer
+NbOperatorsRequired=Number of operators required
+THMOperatorEstimated=Estimated operator THM
+THMMachineEstimated=Estimated machine THM
