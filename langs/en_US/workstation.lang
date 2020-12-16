@@ -54,3 +54,7 @@ MyWidgetDescription = My widget description
 
 WorkstationList=Workstation list
 WorkstationCreate=Add new workstation
+ConfirmEnableWorkstation=Are you sure you want to enable workstation <b>%s</b> ?
+EnableAWorkstation=Enable a workstation
+ConfirmDisableWorkstation=Are you sure you want to disable workstation <b>%s</b> ?
+DisableAWorkstation=Disable a workstation

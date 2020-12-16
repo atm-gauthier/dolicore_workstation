@@ -1,6 +1,6 @@
 <?php
 
-class WorkstationUserGroup extends SeedObject
+class WorkstationUserGroup extends CommonObject
 {
 	/** @var string $table_element Table name in SQL */
 	public $table_element = 'workstation_workstation_usergroup';
@@ -24,8 +24,4 @@ class WorkstationUserGroup extends SeedObject
 		$this->init();
 	}
 
-	public function getNomUrl($getnomurlparam = '')
-	{
-		return $this->label;
-	}
 }

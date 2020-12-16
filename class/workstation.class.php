@@ -603,72 +603,40 @@ class Workstation extends CommonObject
 	 *  @param	int		$notrigger		1=Does not execute triggers, 0=Execute triggers
 	 *	@return	int						<0 if KO, >0 if OK
 	 */
-	public function setDraft($user, $notrigger = 0)
+	public function setStatus($status, $notrigger = 0)
 	{
-		// Protection
-		if ($this->status <= self::STATUS_DRAFT)
-		{
-			return 0;
-		}
+		global $user;
 
-		/*if (! ((empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->workstation->write))
-		 || (! empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->workstation->workstation_advance->validate))))
-		 {
-		 $this->error='Permission denied';
-		 return -1;
-		 }*/
+		$this->status = $status;
 
-		return $this->setStatusCommon($user, self::STATUS_DRAFT, $notrigger, 'WORKSTATION_UNVALIDATE');
+		if(empty($status)) $this->setDisabled($user, $notrigger);
+		else $this->setEnabled($user, $notrigger);
 	}
 
+
 	/**
-	 *	Set cancel status
+	 *	Set draft status
 	 *
 	 *	@param	User	$user			Object user that modify
 	 *  @param	int		$notrigger		1=Does not execute triggers, 0=Execute triggers
-	 *	@return	int						<0 if KO, 0=Nothing done, >0 if OK
+	 *	@return	int						<0 if KO, >0 if OK
 	 */
-	public function cancel($user, $notrigger = 0)
+	public function setEnabled($user, $notrigger = 0)
 	{
-		// Protection
-		if ($this->status != self::STATUS_VALIDATED)
-		{
-			return 0;
-		}
-
-		/*if (! ((empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->workstation->write))
-		 || (! empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->workstation->workstation_advance->validate))))
-		 {
-		 $this->error='Permission denied';
-		 return -1;
-		 }*/
-
-		return $this->setStatusCommon($user, self::STATUS_CANCELED, $notrigger, 'WORKSTATION_CLOSE');
+		return $this->setStatusCommon($user, self::STATUS_ENABLED, $notrigger, 'WORKSTATION_ENABLED');
 	}
 
+
 	/**
-	 *	Set back to validated status
+	 *	Set draft status
 	 *
 	 *	@param	User	$user			Object user that modify
 	 *  @param	int		$notrigger		1=Does not execute triggers, 0=Execute triggers
-	 *	@return	int						<0 if KO, 0=Nothing done, >0 if OK
+	 *	@return	int						<0 if KO, >0 if OK
 	 */
-	public function reopen($user, $notrigger = 0)
+	public function setDisabled($user, $notrigger = 0)
 	{
-		// Protection
-		if ($this->status != self::STATUS_CANCELED)
-		{
-			return 0;
-		}
-
-		/*if (! ((empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->workstation->write))
-		 || (! empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->workstation->workstation_advance->validate))))
-		 {
-		 $this->error='Permission denied';
-		 return -1;
-		 }*/
-
-		return $this->setStatusCommon($user, self::STATUS_VALIDATED, $notrigger, 'WORKSTATION_REOPEN');
+		return $this->setStatusCommon($user, self::STATUS_DISABLED, $notrigger, 'WORKSTATION_DISABLED');
 	}
 
 	/**
@@ -798,7 +766,7 @@ class Workstation extends CommonObject
 
 		$statusType = 'status'.$status;
 		//if ($status == self::STATUS_VALIDATED) $statusType = 'status1';
-		if ($status == self::STATUS_CANCELED) $statusType = 'status6';
+		//if ($status == self::STATUS_CANCELED) $statusType = 'status6';
 
 		return dolGetStatus($this->labelStatus[$status], $this->labelStatusShort[$status], '', $statusType, $mode);
 	}
