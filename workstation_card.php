@@ -413,7 +413,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	print '</td></tr>';
 
 	$toprint=array();
-	foreach ($object->usergroups as $id_resource)
+	foreach ($object->resources as $id_resource)
 	{
 		$r = new Dolresource($db);
 		$r->fetch($id_resource);

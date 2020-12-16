@@ -46,7 +46,7 @@ class WorkstationResource extends CommonObject
 		}
 	}
 
-	static public function getAllResourceOfWorkstation($fk_workstation) {
+	static public function getAllResourcesOfWorkstation($fk_workstation) {
 
 		global $db;
 
@@ -65,7 +65,7 @@ class WorkstationResource extends CommonObject
 
 	}
 
-	static public function deleteAllResourceOfWorkstation($fk_workstation) {
+	static public function deleteAllResourcesOfWorkstation($fk_workstation) {
 
 		global $db;
 

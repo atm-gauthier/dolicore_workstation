@@ -178,6 +178,7 @@ class Workstation extends CommonObject
 		global $conf, $langs;
 
 		dol_include_once('/workstation/class/workstationusergroup.class.php');
+		dol_include_once('/workstation/class/workstationresource.class.php');
 
 		$this->db = $db;
 
@@ -239,6 +240,18 @@ class Workstation extends CommonObject
 				$ws_usergroup->fk_usergroup = $id_group;
 				$ws_usergroup->createCommon($user);
 				$this->usergroups[] = $id_group;
+			}
+		}
+
+		// Resources
+		$resources = GETPOST('resources');
+		if(!empty($resources)) {
+			foreach ($resources as $id_resource) {
+				$ws_resource = new WorkstationResource($db);
+				$ws_resource->fk_workstation = $id;
+				$ws_resource->fk_resource = $id_resource;
+				$ws_resource->createCommon($user);
+				$this->resources[] = $id_resource;
 			}
 		}
 
@@ -350,6 +363,7 @@ class Workstation extends CommonObject
 		$result = $this->fetchCommon($id, $ref);
 
 		$this->usergroups = WorkstationUserGroup::getAllGroupsOfWorkstation($this->id);
+		$this->resources = WorkstationResource::getAllResourcesOfWorkstation($this->id);
 
 		if ($result > 0 && !empty($this->table_element_line)) $this->fetchLines();
 		return $result;
@@ -456,21 +470,32 @@ class Workstation extends CommonObject
 	 */
 	public function update(User $user, $notrigger = false)
 	{
-		global $db;
 
 		// Usergroups
 		$groups = GETPOST('groups');
-
-
 		WorkstationUserGroup::deleteAllGroupsOfWorkstation($this->id);
 		$this->usergroups=array();
 
 		foreach ($groups as $id_group) {
-			$ws_usergroup = new WorkstationUserGroup($db);
+			$ws_usergroup = new WorkstationUserGroup($this->db);
 			$ws_usergroup->fk_workstation = $this->id;
 			$ws_usergroup->fk_usergroup = $id_group;
 			$ws_usergroup->createCommon($user);
 			$this->usergroups[] = $id_group;
+		}
+
+		// Resources
+		$resources = GETPOST('resources');
+		WorkstationResource::deleteAllResourcesOfWorkstation($this->id);
+		$this->resources=array();
+		if(!empty($resources)) {
+			foreach ($resources as $id_resource) {
+				$ws_resource = new WorkstationResource($this->db);
+				$ws_resource->fk_workstation = $this->id;
+				$ws_resource->fk_resource = $id_resource;
+				$ws_resource->createCommon($user);
+				$this->resources[] = $id_resource;
+			}
 		}
 
 		return $this->updateCommon($user, $notrigger);
