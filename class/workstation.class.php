@@ -223,7 +223,23 @@ class Workstation extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
-		return $this->createCommon($user, $notrigger);
+		global $db;
+
+		$id = $this->createCommon($user, $notrigger);
+
+		// Usergroups
+		$groups = GETPOST('groups');
+		if(!empty($groups)) {
+			foreach ($groups as $id_group) {
+				$ws_usergroup = new WorkstationUserGroup($db);
+				$ws_usergroup->fk_workstation = $id;
+				$ws_usergroup->fk_usergroup = $id_group;
+				$ws_usergroup->createCommon($user);
+				$this->usergroups[] = $id_group;
+			}
+		}
+
+		return $id;
 	}
 
 	/**
@@ -329,9 +345,9 @@ class Workstation extends CommonObject
 	public function fetch($id, $ref = null)
 	{
 		$result = $this->fetchCommon($id, $ref);
-		$TWorkstationUserGroup = array();
-		$ws_usergroup = new WorkstationUserGroup($db);
-		$ws_usergroup->fetchObjectFrom(WorkstationUserGroup::table_element, 'fk_worstation', $this->id);
+
+		$this->usergroups = WorkstationUserGroup::getAllGroupsOfWorkstation($this->id);
+
 		if ($result > 0 && !empty($this->table_element_line)) $this->fetchLines();
 		return $result;
 	}
@@ -437,6 +453,23 @@ class Workstation extends CommonObject
 	 */
 	public function update(User $user, $notrigger = false)
 	{
+		global $db;
+
+		// Usergroups
+		$groups = GETPOST('groups');
+
+
+		WorkstationUserGroup::deleteAllGroupsOfWorkstation($this->id);
+		$this->usergroups=array();
+
+		foreach ($groups as $id_group) {
+			$ws_usergroup = new WorkstationUserGroup($db);
+			$ws_usergroup->fk_workstation = $this->id;
+			$ws_usergroup->fk_usergroup = $id_group;
+			$ws_usergroup->createCommon($user);
+			$this->usergroups[] = $id_group;
+		}
+
 		return $this->updateCommon($user, $notrigger);
 	}
 

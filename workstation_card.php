@@ -145,8 +145,6 @@ if (empty($reshook))
 	// Actions cancel, add, update, update_extras, confirm_validate, confirm_delete, confirm_deleteline, confirm_clone, confirm_close, confirm_setdraft, confirm_reopen
 	include DOL_DOCUMENT_ROOT.'/core/actions_addupdatedelete.inc.php';
 
-	//var_dump($_REQUEST);
-
 	// Actions when linking object each other
 	include DOL_DOCUMENT_ROOT.'/core/actions_dellink.inc.php';
 
@@ -225,12 +223,11 @@ if ($action == 'create')
 	// Common attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
 
-
 	print '<td>';
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
-	print $form->select_dolgroups('', 'group', 1, '', 0, '', '', $object->entity, true);
+	print $form->select_dolgroups('', 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td>';
 
 	// Other attributes
@@ -269,6 +266,13 @@ if (($id || $ref) && $action == 'edit')
 
 	// Common attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_edit.tpl.php';
+
+	print '<td>';
+	print $langs->trans('Groups');
+	print '</td>';
+	print '<td>';
+	print $form->select_dolgroups(WorkstationUserGroup::getAllGroupsOfWorkstation($object->id), 'groups', 1, '', 0, '', '', $object->entity, true);
+	print '</td>';
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
@@ -383,11 +387,13 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_view.tpl.php';
 
 	$toprint=array();
-	foreach ($groups as $group)
+	foreach ($object->usergroups as $id_group)
 	{
-		$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"'.($c->color ? ' style="background: #'.$c->color.';"' : ' style="background: #bbb"').'>'.$way.'</li>';
+		$g = new UserGroup($db);
+		$g->fetch($id_group);
+		$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"'. ' style="background: #bbb"' .'>'.$g->nom.'</li>';
 	}
-	print '<tr><td>';
+	print '<tr><td>'.$langs->trans('Groups').'</td><td>';
 	print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">'.implode(' ', $toprint).'</ul></div>';
 	print '</td></tr>';
 
