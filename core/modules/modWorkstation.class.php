@@ -269,8 +269,8 @@ class modWorkstation extends DolibarrModules
 		$this->menu[$r++] = array(
 			'fk_menu'=>'', // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'top', // This is a Top menu entry
-			'titre'=>'ModuleWorkstationName',
-			'mainmenu'=>'workstation',
+			'titre'=>$langs->trans('GPAO'),
+			'mainmenu'=>'gpao',
 			'leftmenu'=>'',
 			'url'=>'/workstation/workstationindex.php',
 			'langs'=>'workstation@workstation', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
@@ -328,11 +328,11 @@ class modWorkstation extends DolibarrModules
 
         $this->menu[$r++]=array(
             // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=workstation',
+            'fk_menu'=>'fk_mainmenu=gpao',
             // This is a Left menu entry
             'type'=>'left',
             'titre'=>$langs->trans('WorkstationList'),
-            'mainmenu'=>'workstation',
+            'mainmenu'=>'gpao',
             'leftmenu'=>'workstation_workstation',
             'url'=>'/workstation/workstation_list.php',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
@@ -348,11 +348,11 @@ class modWorkstation extends DolibarrModules
         );
         $this->menu[$r++]=array(
             // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=workstation,fk_leftmenu=workstation_workstation',
+            'fk_menu'=>'fk_mainmenu=gpao,fk_leftmenu=workstation_workstation',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'New Workstation',
-            'mainmenu'=>'workstation',
+            'titre'=>$langs->trans('WorkstationCreate'),
+            'mainmenu'=>'gpao',
             'leftmenu'=>'workstation_workstation',
             'url'=>'/workstation/workstation_card.php?action=create',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.

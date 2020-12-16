@@ -62,3 +62,7 @@ DeleteWorkstation=Supprimer
 NbOperatorsRequired=Number of operators required
 THMOperatorEstimated=Estimated operator THM
 THMMachineEstimated=Estimated machine THM
+WorkstationType=Workstation type
+Human=Human
+Machine=Machine
+HumanMachine=Human / Machine
