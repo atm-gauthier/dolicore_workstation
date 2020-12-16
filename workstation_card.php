@@ -59,8 +59,9 @@ if (!$res && file_exists("../../../main.inc.php")) $res = @include "../../../mai
 if (!$res) die("Include of main fails");
 
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
+require_once DOL_DOCUMENT_ROOT.'/resource/class/html.formresource.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
-require_once DOL_DOCUMENT_ROOT.'/core/class/html.formprojet.class.php';
+require_once DOL_DOCUMENT_ROOT.'/resource/class/dolresource.class.php';
 dol_include_once('/workstation/class/workstation.class.php');
 dol_include_once('/workstation/lib/workstation_workstation.lib.php');
 dol_include_once('/workstation/class/workstationusergroup.class.php');
@@ -180,7 +181,7 @@ if (empty($reshook))
 
 $form = new Form($db);
 $formfile = new FormFile($db);
-$formproject = new FormProjets($db);
+$formresource = new FormResource($db);
 
 $title = $langs->trans("Workstation");
 $help_url = '';
@@ -223,12 +224,19 @@ if ($action == 'create')
 	// Common attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
 
-	print '<td>';
+	print '<tr><td>';
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
 	print $form->select_dolgroups('', 'groups', 1, '', 0, '', '', $object->entity, true);
+	print '</td></tr>';
+
+	print '<tr><td>';
+	print $langs->trans('Resources');
 	print '</td>';
+	print '<td>';
+	print $formresource->select_resource_list('', 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
+	print '</td></tr>';
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
@@ -273,6 +281,13 @@ if (($id || $ref) && $action == 'edit')
 	print '<td>';
 	print $form->select_dolgroups(WorkstationUserGroup::getAllGroupsOfWorkstation($object->id), 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td>';
+
+	print '<tr><td>';
+	print $langs->trans('Resources');
+	print '</td>';
+	print '<td>';
+	print $formresource->select_resource_list('', 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
+	print '</td></tr>';
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
@@ -394,6 +409,17 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"'. ' style="background: #bbb"' .'>'.$g->nom.'</li>';
 	}
 	print '<tr><td>'.$langs->trans('Groups').'</td><td>';
+	print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">'.implode(' ', $toprint).'</ul></div>';
+	print '</td></tr>';
+
+	$toprint=array();
+	foreach ($object->usergroups as $id_resource)
+	{
+		$r = new Dolresource($db);
+		$r->fetch($id_resource);
+		$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"'. ' style="background: #bbb"' .'>'.$r->ref.'</li>';
+	}
+	print '<tr><td>'.$langs->trans('Resources').'</td><td>';
 	print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">'.implode(' ', $toprint).'</ul></div>';
 	print '</td></tr>';
 
