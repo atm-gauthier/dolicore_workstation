@@ -112,9 +112,11 @@ if (!$sortorder) $sortorder = "ASC";
 // Initialize array of search criterias
 $search_all = GETPOST('search_all', 'alphanohtml') ? GETPOST('search_all', 'alphanohtml') : GETPOST('sall', 'alphanohtml');
 $search = array();
+
 foreach ($object->fields as $key => $val)
 {
 	if (GETPOST('search_'.$key, 'alpha') !== '') $search[$key] = GETPOST('search_'.$key, 'alpha');
+	if(in_array($key, array('type', 'status')) && GETPOST('search_'.$key, 'alpha') == -1) $search[$key] = '';
 }
 
 // List of fields to search into when doing a "search in all"

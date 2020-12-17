@@ -73,7 +73,7 @@ class modWorkstation extends DolibarrModules
 		// Name of image file used for this module.
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
-		$this->picto = 'generic';
+		$this->picto = 'mrp';
 		// Define some features supported by module (triggers, login, substitutions, menus, css, etc...)
 		$this->module_parts = array(
 			// Set this to 1 if module has its own trigger directory (core/triggers)
@@ -266,7 +266,7 @@ class modWorkstation extends DolibarrModules
 		$r = 0;
 		// Add here entries to declare new menus
 		/* BEGIN MODULEBUILDER TOPMENU */
-		$this->menu[$r++] = array(
+		/*$this->menu[$r++] = array(
 			'fk_menu'=>'', // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'top', // This is a Top menu entry
 			'titre'=>$langs->trans('GPAO'),
@@ -279,7 +279,7 @@ class modWorkstation extends DolibarrModules
 			'perms'=>'1', // Use 'perms'=>'$user->rights->workstation->workstation->read' if you want your menu with a permission rules
 			'target'=>'',
 			'user'=>2, // 0=Menu for internal users, 1=external users, 2=both
-		);
+		);*/
 		/* END MODULEBUILDER TOPMENU */
 		/* BEGIN MODULEBUILDER LEFTMENU WORKSTATION
 		$this->menu[$r++]=array(
@@ -328,11 +328,11 @@ class modWorkstation extends DolibarrModules
 
         $this->menu[$r++]=array(
             // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=gpao',
+            'fk_menu'=>'fk_mainmenu=mrp',
             // This is a Left menu entry
             'type'=>'left',
             'titre'=>$langs->trans('WorkstationList'),
-            'mainmenu'=>'gpao',
+            'mainmenu'=>'mrp',
             'leftmenu'=>'workstation_workstation',
             'url'=>'/workstation/workstation_list.php',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
@@ -348,11 +348,11 @@ class modWorkstation extends DolibarrModules
         );
         $this->menu[$r++]=array(
             // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=gpao,fk_leftmenu=workstation_workstation',
+            'fk_menu'=>'fk_mainmenu=mrp,fk_leftmenu=workstation_workstation',
             // This is a Left menu entry
             'type'=>'left',
             'titre'=>$langs->trans('WorkstationCreate'),
-            'mainmenu'=>'gpao',
+            'mainmenu'=>'mrp',
             'leftmenu'=>'workstation_workstation',
             'url'=>'/workstation/workstation_card.php?action=create',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.

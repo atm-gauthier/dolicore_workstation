@@ -19,7 +19,7 @@ CREATE TABLE llx_workstation_workstation(
 	rowid integer AUTO_INCREMENT PRIMARY KEY NOT NULL, 
 	ref varchar(128) DEFAULT '(PROV)' NOT NULL,
     label varchar(255),
-    type varchar(12),
+    type varchar(7),
     note_public text,
 	note_private text, 
 	date_creation datetime NOT NULL, 

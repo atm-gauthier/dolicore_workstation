@@ -246,7 +246,7 @@ if ($action == 'create')
 	print '</td></tr>';
 
 	print '<tr id="wsresources"><td>';
-	print $langs->trans('Resources');
+	print $langs->trans('Machines');
 	print '</td>';
 	print '<td>';
 	print $formresource->select_resource_list($resources, 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
@@ -298,7 +298,7 @@ if (($id || $ref) && $action == 'edit')
 	print '</td></tr>';
 
 	print '<tr id="wsresources"><td>';
-	print $langs->trans('Resources');
+	print $langs->trans('Machines');
 	print '</td>';
 	print '<td>';
 	print $formresource->select_resource_list(empty($resources) ? $object->resources : $resources, 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
@@ -438,7 +438,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			$r->fetch($id_resource);
 			$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"' . ' style="background: #bbb"' . '>' . $r->getNomUrl(1) . '</li>';
 		}
-		print '<tr><td>' . $langs->trans('Resources') . '</td><td>';
+		print '<tr><td>' . $langs->trans('Machines') . '</td><td>';
 		print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">' . implode(' ', $toprint) . '</ul></div>';
 		print '</td></tr>';
 	}
