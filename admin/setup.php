@@ -55,10 +55,10 @@ $backtopage = GETPOST('backtopage', 'alpha');
 
 $value = GETPOST('value', 'alpha');
 
-$arrayofparameters = array(
+/*$arrayofparameters = array(
 	'WORKSTATION_MYPARAM1'=>array('css'=>'minwidth200', 'enabled'=>1),
 	'WORKSTATION_MYPARAM2'=>array('css'=>'minwidth500', 'enabled'=>1)
-);
+);*/
 
 $error = 0;
 $setupnotempty = 0;
@@ -75,8 +75,8 @@ if ((float) DOL_VERSION >= 6)
 
 if ($action == 'updateMask')
 {
-	$maskconstorder = GETPOST('maskconstorder', 'alpha');
-	$maskorder = GETPOST('maskorder', 'alpha');
+	$maskconstorder = GETPOST('maskconstWorkstation', 'alpha');
+	$maskorder = GETPOST('maskWorkstation', 'alpha');
 
 	if ($maskconstorder) $res = dolibarr_set_const($db, $maskconstorder, $maskorder, 'chaine', 0, '', $conf->entity);
 
@@ -196,7 +196,7 @@ $head = workstationAdminPrepareHead();
 print dol_get_fiche_head($head, 'settings', '', -1, "workstation@workstation");
 
 // Setup page goes here
-echo '<span class="opacitymedium">'.$langs->trans("WorkstationSetupPage").'</span><br><br>';
+//echo '<span class="opacitymedium">'.$langs->trans("WorkstationSetupPage").'</span><br><br>';
 
 
 if ($action == 'edit')
@@ -244,15 +244,15 @@ if ($action == 'edit')
 		print '<div class="tabsAction">';
 		print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?action=edit">'.$langs->trans("Modify").'</a>';
 		print '</div>';
-	} else {
+	}/* else {
 		print '<br>'.$langs->trans("NothingToSetup");
-	}
+	}*/
 }
 
 
 $moduledir = 'workstation';
 $myTmpObjects = array();
-$myTmpObjects['MyObject'] = array('includerefgeneration'=>0, 'includedocgeneration'=>0);
+$myTmpObjects['workstation'] = array('includerefgeneration'=>1, 'includedocgeneration'=>0);
 
 
 foreach ($myTmpObjects as $myTmpObjectKey => $myTmpObjectArray) {
@@ -515,9 +515,9 @@ foreach ($myTmpObjects as $myTmpObjectKey => $myTmpObjectArray) {
 	}
 }
 
-if (empty($setupnotempty)) {
+/*if (empty($setupnotempty)) {
 	print '<br>'.$langs->trans("NothingToSetup");
-}
+}*/
 
 // Page end
 print dol_get_fiche_end();

@@ -21,6 +21,7 @@ CREATE TABLE llx_workstation_workstation(
     label varchar(255),
     type varchar(7),
     note_public text,
+	entity int DEFAULT 1,
 	note_private text, 
 	date_creation datetime NOT NULL, 
 	tms timestamp, 

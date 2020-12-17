@@ -121,34 +121,32 @@ class mod_workstation_standard extends ModeleNumRefWorkstation
 	{
 		global $db, $conf;
 
-		require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
+		// First we get the max value
+		$posindice = strlen($this->prefix) + 6;
+		$sql = "SELECT MAX(CAST(SUBSTRING(ref FROM ".$posindice.") AS SIGNED)) as max";
+		$sql .= " FROM ".MAIN_DB_PREFIX."workstation_workstation";
+		$sql .= " WHERE ref LIKE '".$db->escape($this->prefix)."____-%'";
+		//$sql .= " AND entity = ".$conf->entity;
 
-		// Get Mask value
-		$mask = '';
-		if (is_object($object))
+		$resql = $db->query($sql);
+		if ($resql)
 		{
-			$mask = $conf->global->WORKSTATION_WORKSTATION_MASK;
-			if (!$mask)
-			{
-				$mask = 'WS{yy}{mm}{000}';
-			}
-		}
-		if (!$mask)
-		{
-			$this->error = 'NotConfigured';
-			return 0;
+			$obj = $db->fetch_object($resql);
+			if ($obj) $max = intval($obj->max);
+			else $max = 0;
+		} else {
+			dol_syslog("mod_workstation_standard::getNextValue", LOG_DEBUG);
+			return -1;
 		}
 
-		$where = '';
-		//if ($facture->type == 2) $where.= " AND type = 2";
-		//else $where.=" AND type != 2";
+		//$date=time();
+		$date = dol_now();
+		$yymm = strftime("%y%m", $date);
 
-		// Get entities
-		//$entity = getEntity('workstationnumber', 1, $object);
+		if ($max >= (pow(10, 4) - 1)) $num = $max + 1; // If counter > 9999, we do not format on 4 chars, we take number as it is
+		else $num = sprintf("%04s", $max + 1);
 
-		$numFinal = get_next_value($db, $mask, 'workstation_workstation', 'ref', $where, $objsoc, $object->date, 'next', false, null, $entity);
-		if (!preg_match('/([0-9])+/', $numFinal)) $this->error = $numFinal;
-
-		return  $numFinal;
+		dol_syslog("mod_workstation_standard::getNextValue return ".$this->prefix.$yymm."-".$num);
+		return $this->prefix.$yymm."-".$num;
 	}
 }
