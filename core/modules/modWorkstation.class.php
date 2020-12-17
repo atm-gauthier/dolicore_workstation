@@ -331,7 +331,7 @@ class modWorkstation extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=mrp',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>$langs->trans('WorkstationList'),
+            'titre'=>$langs->trans('ModuleWorkstationName'),
             'mainmenu'=>'mrp',
             'leftmenu'=>'workstation_workstation',
             'url'=>'',
@@ -341,7 +341,7 @@ class modWorkstation extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->workstation->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->workstation->enabled',
             // Use 'perms'=>'$user->rights->workstation->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->workstation->workstation->read',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2,
@@ -361,7 +361,7 @@ class modWorkstation extends DolibarrModules
 			// Define condition to show or hide menu entry. Use '$conf->workstation->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
 			'enabled'=>'$conf->workstation->enabled',
 			// Use 'perms'=>'$user->rights->workstation->level1->level2' if you want your menu with a permission rules
-			'perms'=>'1',
+			'perms'=>'$user->rights->workstation->workstation->write',
 			'target'=>'',
 			// 0=Menu for internal users, 1=external users, 2=both
 			'user'=>2
@@ -381,7 +381,7 @@ class modWorkstation extends DolibarrModules
 			// Define condition to show or hide menu entry. Use '$conf->workstation->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
 			'enabled'=>'$conf->workstation->enabled',
 			// Use 'perms'=>'$user->rights->workstation->level1->level2' if you want your menu with a permission rules
-			'perms'=>'1',
+			'perms'=>'$user->rights->workstation->workstation->read',
 			'target'=>'',
 			// 0=Menu for internal users, 1=external users, 2=both
 			'user'=>2
