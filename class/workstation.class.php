@@ -233,6 +233,7 @@ class Workstation extends CommonObject
 
 		// Usergroups
 		$groups = GETPOST('groups');
+		if(empty($groups)) $groups = $this->usergroups; // createFromClone
 		if(!empty($groups)) {
 			foreach ($groups as $id_group) {
 				$ws_usergroup = new WorkstationUserGroup($db);
@@ -245,6 +246,7 @@ class Workstation extends CommonObject
 
 		// Resources
 		$resources = GETPOST('resources');
+		if(empty($resources)) $resources = $this->resources; // createFromClone
 		if(!empty($resources)) {
 			foreach ($resources as $id_resource) {
 				$ws_resource = new WorkstationResource($db);
@@ -277,7 +279,7 @@ class Workstation extends CommonObject
 		$this->db->begin();
 
 		// Load source object
-		$result = $object->fetchCommon($fromid);
+		$result = $object->fetch($fromid);
 		if ($result > 0 && !empty($object->table_element_line)) $object->fetchLines();
 
 		// get lines so they will be clone
@@ -313,7 +315,7 @@ class Workstation extends CommonObject
 
 		// Create clone
 		$object->context['createfromclone'] = 'createfromclone';
-		$result = $object->createCommon($user);
+		$result = $object->create($user);
 		if ($result < 0) {
 			$error++;
 			$this->error = $object->error;

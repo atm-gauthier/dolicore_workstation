@@ -78,6 +78,8 @@ $cancel     = GETPOST('cancel', 'aZ09');
 $contextpage = GETPOST('contextpage', 'aZ') ?GETPOST('contextpage', 'aZ') : 'workstationcard'; // To manage different context of search
 $backtopage = GETPOST('backtopage', 'alpha');
 $backtopageforcancel = GETPOST('backtopageforcancel', 'alpha');
+$groups	= GETPOST('groups');
+$resources	= GETPOST('resources');
 //$lineid   = GETPOST('lineid', 'int');
 
 // Initialize technical objects
@@ -228,14 +230,14 @@ if ($action == 'create')
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
-	print $form->select_dolgroups('', 'groups', 1, '', 0, '', '', $object->entity, true);
+	print $form->select_dolgroups($groups, 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td></tr>';
 
 	print '<tr><td>';
 	print $langs->trans('Resources');
 	print '</td>';
 	print '<td>';
-	print $formresource->select_resource_list('', 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
+	print $formresource->select_resource_list($resources, 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
 	print '</td></tr>';
 
 	// Other attributes
@@ -286,7 +288,7 @@ if (($id || $ref) && $action == 'edit')
 	print $langs->trans('Resources');
 	print '</td>';
 	print '<td>';
-	print $formresource->select_resource_list('', 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
+	print $formresource->select_resource_list(WorkstationResource::getAllResourcesOfWorkstation($object->id), 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
 	print '</td></tr>';
 
 	// Other attributes
