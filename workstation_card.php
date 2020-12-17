@@ -281,14 +281,14 @@ if (($id || $ref) && $action == 'edit')
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
-	print $form->select_dolgroups(WorkstationUserGroup::getAllGroupsOfWorkstation($object->id), 'groups', 1, '', 0, '', '', $object->entity, true);
+	print $form->select_dolgroups(empty($groups) ? $object->usergroups : $groups, 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td>';
 
 	print '<tr><td>';
 	print $langs->trans('Resources');
 	print '</td>';
 	print '<td>';
-	print $formresource->select_resource_list(WorkstationResource::getAllResourcesOfWorkstation($object->id), 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
+	print $formresource->select_resource_list(empty($resources) ? $object->resources : $resources, 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
 	print '</td></tr>';
 
 	// Other attributes
