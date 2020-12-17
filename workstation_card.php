@@ -198,9 +198,15 @@ llxHeader('', $title, $help_url);
 				if($(this).val() === 'MACHINE') {
                     $('#usergroups').hide();
                     $('#nb_operators_required').parent('td').parent('tr').hide();
-                }
+					$('#wsresources').show();
+                } else if($(this).val() === 'HUMAN') {
+					$('#wsresources').hide();
+					$('#nb_operators_required').parent('td').parent('tr').show();
+					$('#usergroups').show();
+				}
 				else {
 					$('#usergroups').show();
+					$('#wsresources').show();
 					$('#nb_operators_required').parent('td').parent('tr').show();
 				}
 			});
@@ -239,7 +245,7 @@ if ($action == 'create')
 	print $form->select_dolgroups($groups, 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td></tr>';
 
-	print '<tr><td>';
+	print '<tr id="wsresources"><td>';
 	print $langs->trans('Resources');
 	print '</td>';
 	print '<td>';
@@ -291,7 +297,7 @@ if (($id || $ref) && $action == 'edit')
 	print $form->select_dolgroups(empty($groups) ? $object->usergroups : $groups, 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td></tr>';
 
-	print '<tr><td>';
+	print '<tr id="wsresources"><td>';
 	print $langs->trans('Resources');
 	print '</td>';
 	print '<td>';
@@ -425,16 +431,17 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	}
 
 	// Resources
-	$toprint=array();
-	foreach ($object->resources as $id_resource)
-	{
-		$r = new Dolresource($db);
-		$r->fetch($id_resource);
-		$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"'. ' style="background: #bbb"' .'>'.$r->getNomUrl(1).'</li>';
+	if($object->type !== 'HUMAN') {
+		$toprint = array();
+		foreach ($object->resources as $id_resource) {
+			$r = new Dolresource($db);
+			$r->fetch($id_resource);
+			$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"' . ' style="background: #bbb"' . '>' . $r->getNomUrl(1) . '</li>';
+		}
+		print '<tr><td>' . $langs->trans('Resources') . '</td><td>';
+		print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">' . implode(' ', $toprint) . '</ul></div>';
+		print '</td></tr>';
 	}
-	print '<tr><td>'.$langs->trans('Resources').'</td><td>';
-	print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">'.implode(' ', $toprint).'</ul></div>';
-	print '</td></tr>';
 
 	// Other attributes. Fields from hook formObjectOptions and Extrafields.
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
