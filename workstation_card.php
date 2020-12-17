@@ -190,20 +190,18 @@ $help_url = '';
 llxHeader('', $title, $help_url);
 
 // Example : Adding jquery code
-print '<script type="text/javascript" language="javascript">
-jQuery(document).ready(function() {
-	function init_myfunc()
-	{
-		jQuery("#myid").removeAttr(\'disabled\');
-		jQuery("#myid").attr(\'disabled\',\'disabled\');
-	}
-	init_myfunc();
-	jQuery("#mybutton").click(function() {
-		init_myfunc();
-	});
-});
-</script>';
+?>
+	<script type="text/javascript" language="javascript">
 
+		jQuery(document).ready(function() {
+			jQuery("#type").change(function() {
+				if($(this).val() === 'MACHINE') $('#usergroups').hide();
+				else $('#usergroups').show();
+			});
+		});
+
+	</script>
+<?php
 
 // Part to create
 if ($action == 'create')
@@ -226,7 +224,8 @@ if ($action == 'create')
 	// Common attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
 
-	print '<tr><td>';
+	print '<tr id="usergroups"';
+	print ' ><td>';
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
@@ -277,12 +276,14 @@ if (($id || $ref) && $action == 'edit')
 	// Common attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_edit.tpl.php';
 
-	print '<td>';
+	print '<tr id="usergroups"';
+	if($object->type === 'MACHINE') print ' style="display:none;"';
+	print '><td>';
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
 	print $form->select_dolgroups(empty($groups) ? $object->usergroups : $groups, 'groups', 1, '', 0, '', '', $object->entity, true);
-	print '</td>';
+	print '</td></tr>';
 
 	print '<tr><td>';
 	print $langs->trans('Resources');
@@ -403,17 +404,20 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	//unset($object->fields['fk_soc']);					// Hide field already shown in banner
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_view.tpl.php';
 
-	$toprint=array();
-	foreach ($object->usergroups as $id_group)
-	{
-		$g = new UserGroup($db);
-		$g->fetch($id_group);
-		$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"'. ' style="background: #bbb"' .'>'.$g->getNomUrl(1).'</li>';
+	// Groups
+	if($object->type !== 'MACHINE') {
+		$toprint = array();
+		foreach ($object->usergroups as $id_group) {
+			$g = new UserGroup($db);
+			$g->fetch($id_group);
+			$toprint[] = '<li class="select2-search-choice-dolibarr noborderoncategories"' . ' style="background: #bbb"' . '>' . $g->getNomUrl(1) . '</li>';
+		}
+		print '<tr><td>' . $langs->trans('Groups') . '</td><td>';
+		print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">' . implode(' ', $toprint) . '</ul></div>';
+		print '</td></tr>';
 	}
-	print '<tr><td>'.$langs->trans('Groups').'</td><td>';
-	print '<div class="select2-container-multi-dolibarr" style="width: 90%;"><ul class="select2-choices-dolibarr">'.implode(' ', $toprint).'</ul></div>';
-	print '</td></tr>';
 
+	// Resources
 	$toprint=array();
 	foreach ($object->resources as $id_resource)
 	{
