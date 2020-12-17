@@ -195,9 +195,16 @@ llxHeader('', $title, $help_url);
 
 		jQuery(document).ready(function() {
 			jQuery("#type").change(function() {
-				if($(this).val() === 'MACHINE') $('#usergroups').hide();
-				else $('#usergroups').show();
+				if($(this).val() === 'MACHINE') {
+                    $('#usergroups').hide();
+                    $('#nb_operators_required').parent('td').parent('tr').hide();
+                }
+				else {
+					$('#usergroups').show();
+					$('#nb_operators_required').parent('td').parent('tr').show();
+				}
 			});
+			jQuery("#type").trigger('change');
 		});
 
 	</script>
@@ -277,7 +284,6 @@ if (($id || $ref) && $action == 'edit')
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_edit.tpl.php';
 
 	print '<tr id="usergroups"';
-	if($object->type === 'MACHINE') print ' style="display:none;"';
 	print '><td>';
 	print $langs->trans('Groups');
 	print '</td>';
@@ -402,6 +408,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	//$keyforbreak='fieldkeytoswitchonsecondcolumn';	// We change column just before this field
 	//unset($object->fields['fk_project']);				// Hide field already shown in banner
 	//unset($object->fields['fk_soc']);					// Hide field already shown in banner
+	if($object->type === 'MACHINE') $object->fields['nb_operators_required']['visible'] = 0;
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_view.tpl.php';
 
 	// Groups
