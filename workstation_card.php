@@ -84,14 +84,14 @@ $resources	= GETPOST('resources');
 
 // Initialize technical objects
 $object = new Workstation($db);
-$extrafields = new ExtraFields($db);
+//$extrafields = new ExtraFields($db);
 $diroutputmassaction = $conf->workstation->dir_output.'/temp/massgeneration/'.$user->id;
 $hookmanager->initHooks(array('workstationcard', 'globalcard')); // Note that conf->hooks_modules contains array
 
 // Fetch optionals attributes and labels
-$extrafields->fetch_name_optionals_label($object->table_element);
+//$extrafields->fetch_name_optionals_label($object->table_element);
 
-$search_array_options = $extrafields->getOptionalsFromPost($object->table_element, '', 'search_');
+//$search_array_options = $extrafields->getOptionalsFromPost($object->table_element, '', 'search_');
 
 // Initialize array of search criterias
 $search_all = GETPOST("search_all", 'alpha');
@@ -108,7 +108,7 @@ include DOL_DOCUMENT_ROOT.'/core/actions_fetchobject.inc.php'; // Must be includ
 
 $permissiontoread = $user->rights->workstation->workstation->read;
 $permissiontoadd = $user->rights->workstation->workstation->write; // Used by the include of actions_addupdatedelete.inc.php and actions_lineupdown.inc.php
-$permissiontodelete = $user->rights->workstation->workstation->delete || ($permissiontoadd && isset($object->status) && $object->status == $object::STATUS_DRAFT);
+$permissiontodelete = $user->rights->workstation->workstation->delete;
 $permissionnote = $user->rights->workstation->workstation->write; // Used by the include of actions_setnotes.inc.php
 $permissiondellink = $user->rights->workstation->workstation->write; // Used by the include of actions_dellink.inc.php
 $upload_dir = $conf->workstation->multidir_output[isset($object->entity) ? $object->entity : 1];
@@ -119,7 +119,7 @@ $upload_dir = $conf->workstation->multidir_output[isset($object->entity) ? $obje
 //$isdraft = (($object->statut == $object::STATUS_DRAFT) ? 1 : 0);
 //$result = restrictedArea($user, 'workstation', $object->id, '', '', 'fk_soc', 'rowid', $isdraft);
 
-//if (!$permissiontoread) accessforbidden();
+if (!$permissiontoread) accessforbidden();
 
 
 /*
@@ -242,6 +242,7 @@ if ($action == 'create')
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
+	print img_picto('', 'group');
 	print $form->select_dolgroups($groups, 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td></tr>';
 
@@ -249,11 +250,12 @@ if ($action == 'create')
 	print $langs->trans('Machines');
 	print '</td>';
 	print '<td>';
+	print img_picto('', 'resource');
 	print $formresource->select_resource_list($resources, 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
 	print '</td></tr>';
 
 	// Other attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
+	//include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
 
 	print '</table>'."\n";
 
@@ -294,6 +296,7 @@ if (($id || $ref) && $action == 'edit')
 	print $langs->trans('Groups');
 	print '</td>';
 	print '<td>';
+	print img_picto('', 'group');
 	print $form->select_dolgroups(empty($groups) ? $object->usergroups : $groups, 'groups', 1, '', 0, '', '', $object->entity, true);
 	print '</td></tr>';
 
@@ -301,11 +304,12 @@ if (($id || $ref) && $action == 'edit')
 	print $langs->trans('Machines');
 	print '</td>';
 	print '<td>';
+	print img_picto('', 'resource');
 	print $formresource->select_resource_list(empty($resources) ? $object->resources : $resources, 'resources', '', '', 0, '', '', $object->entity, true, 0, '', true);
 	print '</td></tr>';
 
 	// Other attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
+	//include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
 
 	print '</table>';
 
@@ -444,7 +448,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	}
 
 	// Other attributes. Fields from hook formObjectOptions and Extrafields.
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
+	//include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
 
 	print '</table>';
 	print '</div>';
